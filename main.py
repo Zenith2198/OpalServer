@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask import Flask
 
@@ -9,7 +10,7 @@ app = Flask(__name__)
 def hello_world():
     """Example Hello World route."""
     name = os.environ.get("NAME", "World")
-    return f"Hello {name}!"
+    return json.dumps({ "response": "Hello World" })
 
 
 if __name__ == "__main__":
