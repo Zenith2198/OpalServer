@@ -19,7 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Generate prisma client
 RUN prisma generate --generator py
 
-# Run the web service on container startup. Here we use the hypercorn ASGI webserver
+# Run the web service on container startup. Here we use the uvicorn ASGI webserver
 # We must listen on port $PORT, as per Google Cloud Run's Container runtime contract
 ENV PORT 8080
-CMD exec hypercorn --bind :$PORT main:app
+# CMD exec hypercorn --bind :$PORT main:app
+CMD exec uvicorn --host 0.0.0.0 --port $PORT main:app
