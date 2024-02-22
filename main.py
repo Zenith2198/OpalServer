@@ -3,9 +3,9 @@ from prisma import Prisma
 
 from quart import Quart
 
-import logging
-logging.basicConfig()
-logging.getLogger('prisma').setLevel(logging.DEBUG)
+# import logging
+# logging.basicConfig()
+# logging.getLogger('prisma').setLevel(logging.DEBUG)
 
 app = Quart(__name__)
 
