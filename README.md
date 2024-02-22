@@ -6,10 +6,7 @@ docker build -t opalserver .; docker run -p 8080:8080 --name opalserver opalserv
 ```
 This will open a web server at `localhost:8080`.
 
-Once you are done testing the server, delete the container and image using
-```bash
-docker rm opalserver; docker rmi opalserver
-```
+To open the container in VSCode, open the Command Pallette `ctrl + shift + p` and run `Dev Containers: Attach to Running Container` (this requires the Dev Containers extension).
 
 # Commands for running locally
 
