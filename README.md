@@ -9,7 +9,7 @@ This will open a web server at `localhost:8080`.
 
 To open the container in VSCode, open the Command Pallette `ctrl + shift + p` and run `Dev Containers: Attach to Running Container` (this requires the Dev Containers extension).
 
-If you aren't immediately put into /app
+If you aren't in the same directory as the repository, use
 ```bash
 cd /app
 ```
