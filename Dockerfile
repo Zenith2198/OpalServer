@@ -27,4 +27,4 @@ RUN prisma generate --generator py
 ENV PORT 8080
 # CMD exec hypercorn --bind :$PORT main:app
 # CMD exec uvicorn --host 0.0.0.0 --port $PORT main:app
-CMD exec screen -S opalserver gunicorn --pid app.pid --bind :$PORT --workers 1 --threads 8 --timeout 0 -k uvicorn.workers.UvicornWorker main:app
+CMD exec gunicorn --pid app.pid --bind :$PORT --workers 1 --threads 8 --timeout 0 -k uvicorn.workers.UvicornWorker main:app
