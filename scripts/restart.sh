@@ -1,3 +1,3 @@
 echo "Restarting gunicorn server..."
-kill -HUP `ps -C gunicorn fch -o pid | head -n 1`
+kill -HUP `<app.pid`
 echo "Gunicorn server restarted"
