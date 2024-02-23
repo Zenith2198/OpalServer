@@ -14,6 +14,11 @@ If you aren't in the same directory as the repository, use
 cd /app
 ```
 
+If the /app directory files are not in the file explorer pane in VS Code, you can manually attach them:
+   - Go to File > Add Folder to Workspace...
+   - Select 'app' and click 'Ok'
+   
+
 To see changes, reload the gunicorn server using
 ```bash
 bash restart.sh
