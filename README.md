@@ -17,12 +17,14 @@ If the /app directory files are not in the file explorer pane in VS Code, you ca
    - Go to File > Add Folder to Workspace...
    - Select 'app' and click 'Ok'
 
-To delete the container and image, use
-```bash
-docker rm --force opalserver; docker rmi opalserver
-```
-
 There are helpful `.sh` scripts you can run with the `bash` command in `/scripts`.
 The `attach.sh` script will attach the screen containing the gunicorn process to your terminal. To scroll inside it, hit `ctrl+a`, then hit `esc`. To detach, hit `ctrl+a`, then hit `d`.
 The `restart.sh` script will restart the gunicorn process to allow you to view changes to code.
 The `start.sh` script will run the gunicorn process in a screen. Behavior is the same as when you run `attach.sh`.
+
+A good workflow is to attach to the screen as soon as you open the container in VSCode. Then, make another terminal and put the attached terminal next to the new one. That way, you can restart the server using the the new terminal and view the server's output at the same time.
+
+To delete the container and image, use
+```bash
+docker rm --force opalserver; docker rmi opalserver
+```

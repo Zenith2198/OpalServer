@@ -18,3 +18,6 @@ async def hello_world():
 @app.route("/admin", methods=["POST"])
 async def admin():
 	await request.get_json()
+
+# To run locally, activate this line
+# app.run()
