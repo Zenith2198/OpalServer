@@ -13,6 +13,9 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
 
+# Update and install screen
+RUN apt-get update && apt-get install screen
+
 # Install production dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -24,4 +27,4 @@ RUN prisma generate --generator py
 ENV PORT 8080
 # CMD exec hypercorn --bind :$PORT main:app
 # CMD exec uvicorn --host 0.0.0.0 --port $PORT main:app
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 -k uvicorn.workers.UvicornWorker main:app
+CMD exec screen -d -m gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 -k uvicorn.workers.UvicornWorker main:app

@@ -1,11 +1,8 @@
 import json
 from prisma import Prisma
+import jwt
 
-from quart import Quart
-
-# import logging
-# logging.basicConfig()
-# logging.getLogger('prisma').setLevel(logging.DEBUG)
+from quart import Quart, request
 
 app = Quart(__name__)
 
@@ -18,5 +15,6 @@ async def hello_world():
 
 	return json.dumps(list(map(lambda proj: proj.model_dump_json(), projects)))
 
-# For local testing, enable this line
-# app.run()
+@app.route("/admin", methods=["POST"])
+async def admin():
+	await request.get_json()
