@@ -24,8 +24,8 @@ ENV PORT 8080
 
 # Determine whether to run the dev or prod build scripts. If no argument is given, it defaults to prod
 ARG mode
-COPY docker/build${mode}.sh docker/build.sh
+ENV MODE ${mode}
 RUN apt-get update && apt-get install -y screen
 
 # Run the web service on container startup. Here we use gunicorn with the uvicorn ASGI worker class
-CMD exec bash docker/build.sh
+CMD exec bash docker/build${MODE}.sh
