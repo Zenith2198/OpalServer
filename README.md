@@ -2,7 +2,7 @@
 
 Build the image and run the image in a container using 
 ```bash
-docker build -t opalserver .; docker run -t -d -p 8080:8080 --name opalserver opalserver
+docker build --build-arg mode=dev -t opalserver .; docker run -t -d -p 8080:8080 --name opalserver opalserver
 ```
 This will open a web server at `localhost:8080`.
 
