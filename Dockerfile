@@ -13,18 +13,19 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
 
-# Update and install screen
-RUN apt-get update && apt-get install -y screen
-
 # Install production dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Generate prisma client
 RUN prisma generate --generator py
 
-# Run the web service on container startup. Here we use gunicorn with the uvicorn ASGI worker class
 # We must listen on port $PORT, as per Google Cloud Run's Container runtime contract
 ENV PORT 8080
+
+# Determine whether to run the dev or prod build scripts. If no argument is given, it defaults to prod
 ARG mode
 COPY docker/build${mode}.sh docker/build.sh
+RUN apt-get update && apt-get install -y screen
+
+# Run the web service on container startup. Here we use gunicorn with the uvicorn ASGI worker class
 CMD exec bash docker/build.sh
