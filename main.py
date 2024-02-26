@@ -7,22 +7,31 @@ from time import time
 from dotenv import load_dotenv
 load_dotenv()
 
-from quart import Quart, request
+from quart import Quart, request, Response
 
 app = Quart(__name__)
 
 URLS = ["http://localhost:3000", "https://opal-ochre.vercel.app"]
+CLERK_PEM_PUBLIC_KEY="""-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvO06iWJ1mGVwtrynz9oq
+m2jylpU7MXgRyU+gh2Mu9LLLKJbD5TnHD65K2VDl3CAhGi4au2vubUJx4H10W35B
+U0SfpQxDIzyAUkNCHEhP6r7yJqQit/NeZUNl5eFXjuS9m8vu+4HovqD/yzRp39s8
++6kzCYKB80a+UQ4RbSqukXHN9EmRsz6m8zgosx95JgVt0iwJq6W+D00JaFdAjAC+
+KY2G7ZV0d0P/XxepLOF5HyGCeZ9PVQlzDdm3Fb91S6jIDXVnhROrc4bUbTi2A/0Y
+HlTwEsP5JlwUzAdYwaRp+GoCpsB8Y6C2j6iFzn8O6zazydUStp5Sop9nMgvcYCg9
+4QIDAQAB
+-----END PUBLIC KEY-----"""
 
 
 # Helpers
 def authenticate(encodedJWT):
 	try:
-		decoded = jwt.decode(encodedJWT, os.getenv("CLERK_PEM_PUBLIC_KEY"), algorithms="RS256")
+		decoded = jwt.decode(encodedJWT, CLERK_PEM_PUBLIC_KEY, algorithms="RS256")
 		inTime = decoded["nbf"] < time() < decoded["exp"]
 		fromValidSource = "azp" in decoded and decoded["azp"] in URLS
-		return {"authenticated": inTime and fromValidSource, "message": "no errors"}
-	except Exception as e:
-		return {"authenticated": False, "message": e}
+		return inTime and fromValidSource
+	except:
+		return False
 
 
 # Route handlers
@@ -33,9 +42,9 @@ async def hello_world():
 		async with Prisma() as prisma:
 			projects = await prisma.project.find_many()
 
-		return json.dumps(list(map(lambda proj: proj.model_dump_json(), projects)))
+		return list(map(lambda proj: proj.model_dump_json(), projects))
 	except:
-		return "Database error", 500
+		return { "error": "Database error" }
 
 
 @app.route("/admin", methods=["POST"])
@@ -43,9 +52,9 @@ async def admin():
 	try:
 		req = await request.get_json()
 		auth = authenticate(req["jwt"])
-		return json.dumps(auth)
+		return json.dumps({ "authenticated": auth })
 	except:
-		return json.dumps({ "response": "Server could not handle request" })
+		return { "error": "Server could not handle the request" }
 
 
 # To run locally, activate this line
