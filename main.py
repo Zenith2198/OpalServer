@@ -1,7 +1,5 @@
-import json
 from prisma import Prisma
 import jwt
-import os
 from time import time
 
 from dotenv import load_dotenv
@@ -52,7 +50,7 @@ async def admin():
 	try:
 		req = await request.get_json()
 		auth = authenticate(req["jwt"])
-		return json.dumps({ "authenticated": auth })
+		return { "authenticated": auth }
 	except:
 		return { "error": "Server could not handle the request" }
 
