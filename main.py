@@ -21,9 +21,9 @@ def authenticate(encodedJWT):
 		decoded = jwt.decode(encodedJWT, os.getenv("CLERK_PEM_PUBLIC_KEY"), algorithms="RS256")
 		inTime = decoded["nbf"] < time() < decoded["exp"]
 		fromValidSource = "azp" in decoded and decoded["azp"] in URLS
-		return inTime and fromValidSource
-	except:
-		return False
+		return {"authenticated": inTime and fromValidSource, "message": "no errors"}
+	except Exception as e:
+		return {"authenticated": False, "message": e}
 
 
 # Route handlers
@@ -44,7 +44,7 @@ async def admin():
 	try:
 		req = await request.get_json()
 		auth = authenticate(req["jwt"])
-		return json.dumps({ "authenticated": auth })
+		return json.dumps(auth)
 	except:
 		return "Invalid request", 400
 
