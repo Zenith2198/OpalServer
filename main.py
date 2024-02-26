@@ -3,10 +3,7 @@ import jwt
 from time import time
 import tldextract
 
-from dotenv import load_dotenv
-load_dotenv()
-
-from quart import Quart, request, Response
+from quart import Quart, request
 
 app = Quart(__name__)
 
