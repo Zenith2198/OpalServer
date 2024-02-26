@@ -2,7 +2,6 @@ import json
 from prisma import Prisma
 import jwt
 import os
-import requests
 from time import time
 
 from dotenv import load_dotenv
@@ -46,7 +45,7 @@ async def admin():
 		auth = authenticate(req["jwt"])
 		return json.dumps(auth)
 	except:
-		return "Invalid request", 400
+		return json.dumps({ "response": "Server could not handle request" })
 
 
 # To run locally, activate this line
