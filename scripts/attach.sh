@@ -1,1 +1,0 @@
-screen -rd opalserver

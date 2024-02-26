@@ -1,1 +1,1 @@
-exec screen -S opalserver gunicorn --reload --pid app.pid --bind :$PORT --workers 1 --threads 8 --timeout 0 -k uvicorn.workers.UvicornWorker main:app
+exec screen -S opalserver gunicorn --pid app.pid --bind :$PORT --workers 1 --threads 8 --timeout 0 -k uvicorn.workers.UvicornWorker main:app
