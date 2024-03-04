@@ -5,7 +5,7 @@ from time import time
 from dotenv import load_dotenv
 load_dotenv()
 
-from quart import Quart, request, Response
+from quart import Quart, request
 
 app = Quart(__name__)
 
