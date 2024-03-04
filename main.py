@@ -1,15 +1,14 @@
 from prisma import Prisma
 import jwt
 from time import time
-
-from dotenv import load_dotenv
-load_dotenv()
+import tldextract
 
 from quart import Quart, request
 
 app = Quart(__name__)
 
 URLS = ["http://localhost:3000", "https://opal-ochre.vercel.app"]
+ACCEPTED_EMAIL_DOMAINS=["noaa.gov", "msstate.edu"]
 CLERK_PEM_PUBLIC_KEY="""-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvO06iWJ1mGVwtrynz9oq
 m2jylpU7MXgRyU+gh2Mu9LLLKJbD5TnHD65K2VDl3CAhGi4au2vubUJx4H10W35B
@@ -27,7 +26,9 @@ def authenticate(encodedJWT):
 		decoded = jwt.decode(encodedJWT, CLERK_PEM_PUBLIC_KEY, algorithms="RS256")
 		inTime = decoded["nbf"] < time() < decoded["exp"]
 		fromValidSource = "azp" in decoded and decoded["azp"] in URLS
-		return inTime and fromValidSource
+		emailDomain = tldextract.extract(decoded["primaryEmail"])
+		fromValidEmail = emailDomain.domain + "." + emailDomain.suffix in ACCEPTED_EMAIL_DOMAINS
+		return inTime and fromValidSource and fromValidEmail
 	except:
 		return False
 
