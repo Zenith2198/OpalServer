@@ -58,7 +58,7 @@ async def admin():
 
 @app.route("/test")
 async def test():
-	return { "Test": "Hello World" }
+	return { "Test": "hello World" }
 
 
 # To run locally, activate this line
