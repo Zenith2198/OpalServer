@@ -54,6 +54,11 @@ async def admin():
 		return { "authenticated": auth }
 	except:
 		return { "error": "Server could not handle the request" }
+	
+
+@app.route("/test")
+async def test():
+	return "hello world"
 
 
 # To run locally, activate this line
